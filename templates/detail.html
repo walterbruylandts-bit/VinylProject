@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ artiest }} - {{ titel }}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body { background-color: #121212; color: white; }
+        .album-hoes { width: 100%; max-width: 400px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .track-list { background: #1e1e1e; padding: 20px; border-radius: 10px; }
+        .playing { color: #1db954; font-weight: bold; }
+    </style>
+</head>
+<body class="container py-5">
+    <a href="/" class="btn btn-outline-light mb-4">← Terug naar Collectie</a>
+
+    <div class="row">
+        <div class="col-md-5 text-center">
+            <img src="{{ hoes }}" class="album-hoes mb-3">
+            <h2>{{ titel }}</h2>
+            <p class="lead">{{ artiest }}</p>
+            <hr class="border-secondary">
+            <p><strong>Jaar:</strong> {{ jaar }} | <strong>Label:</strong> {{ label }}</p>
+            <p><small><strong>Bandleden:</strong> {{ bandleden }}</small></p>
+        </div>
+
+        <div class="col-md-7">
+            <div class="track-list">
+                <h3>Afspeellijst</h3>
+                <audio id="audioPlayer" controls class="w-100 mb-3"></audio>
+                
+                <ul class="list-group list-group-flush" id="playlist">
+                    {% for mp3 in mp3s %}
+                    <button class="list-group-item list-group-item-action list-group-item-dark track-item" 
+                            data-src="/play/{{ mp3.pad }}">
+                        {{ loop.index }}. {{ mp3.naam }}
+                    </button>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const player = document.getElementById('audioPlayer');
+        const tracks = document.querySelectorAll('.track-item');
+        let currentTrackIndex = 0;
+
+        function playTrack(index) {
+            if (index >= tracks.length) return;
+            
+            // Reset stijl van alle nummers
+            tracks.forEach(t => t.classList.remove('playing'));
+            
+            // Activeer gekozen nummer
+            const track = tracks[index];
+            track.classList.add('playing');
+            player.src = track.getAttribute('data-src');
+            player.play();
+            currentTrackIndex = index;
+        }
+
+        tracks.forEach((track, index) => {
+            track.addEventListener('click', () => playTrack(index));
+        });
+
+        // Automatisch volgende nummer als het huidige klaar is
+        player.addEventListener('ended', () => {
+            currentTrackIndex++;
+            if (currentTrackIndex < tracks.length) {
+                playTrack(currentTrackIndex);
+            }
+        });
+    </script>
+</body>
+</html>
