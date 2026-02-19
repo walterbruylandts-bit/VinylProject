@@ -131,6 +131,7 @@ def album_detail(release_id):
     mp3s = []
     try:
         mp3s = list_mp3_urls(folder)
+print("MP3 COUNT:", len(mp3s))
     except Exception as e:
         print("Cloudinary fout:", e)
 
