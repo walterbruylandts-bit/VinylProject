@@ -12,7 +12,7 @@
 </head>
 <body class="container py-5">
     <a href="/" class="btn btn-outline-light mb-4">← Terug naar Collectie</a>
-
+<p style="color:yellow; font-weight:bold;">{{ debug_msg }}</p>
     <div class="row">
         <div class="col-md-5 text-center">
             <img src="{{ hoes }}" class="album-hoes mb-3">
@@ -28,14 +28,15 @@
                 <h3>Afspeellijst</h3>
                 <audio id="audioPlayer" controls class="w-100 mb-3"></audio>
                 
-                <ul class="list-group list-group-flush" id="playlist">
-                    {% for mp3 in mp3s %}
-                    <button class="list-group-item list-group-item-action list-group-item-dark track-item" 
-                            data-src="/play/{{ mp3.pad }}">
-                        {{ loop.index }}. {{ mp3.naam }}
-                    </button>
-                    {% endfor %}
-                </ul>
+             <ul class="list-group list-group-flush" id="playlist">
+  {% for mp3 in mp3s %}
+  <button class="list-group-item list-group-item-action list-group-item-dark track-item"
+          data-src="{{ mp3.url }}">
+    {{ loop.index }}. {{ mp3.naam }}
+  </button>
+  {% endfor %}
+</ul>
+
             </div>
         </div>
     </div>
