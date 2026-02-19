@@ -92,7 +92,21 @@ def list_mp3_urls(prefix: str):
 def index():
     zoekterm = request.args.get('search', '')
     lp_lijst = haal_data_op(zoekterm)
-    return render_template('index.html', albums=lp_lijst, zoekterm=zoekterm)
+    return render_template(
+    'detail.html',
+    tracks=bestaande_tracks,
+    release_id=release_id,
+    hoes=album['hoes_url'],
+    mp3s=mp3s,
+    artiest=artiest,
+    titel=titel,
+    jaar=album['jaar'],
+    genre=album['genre'],
+    label=album['label'],
+    producer=album['producer'],
+    bandleden=album['bandleden'],
+    debug_msg="APP.PY NIEUWE VERSIE LIVE"
+)
 
 
 @app.route('/album/<release_id>')
